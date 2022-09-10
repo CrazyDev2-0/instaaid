@@ -1,0 +1,51 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["fullTextSearch", "fullTextIndex", "interactiveTransactions"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum PaymentStatus {
+    pending
+    paid
+    failed
+}
+
+enum OrderStatus {
+    dispensed
+    pending
+}
+
+enum ProductType {
+    sanitary_pad
+    condom
+}
+
+model Machine {
+    id           Int     @id @default(autoincrement())
+    name         String
+    code         String  @unique
+    address      String
+    latitude     Float
+    longitude    Float
+    condomsCount Int     @default(0)
+    padsCount    Int     @default(0)
+    encrKey      String  @default(uuid())
+    orders       Order[]
+}
+
+model Order {
+    id            String        @id @default(cuid())
+    quantity      Int
+    price         Int
+    ip            String
+    product       ProductType   @default(condom)
+    orderStatus   OrderStatus   @default(pending)
+    paymentStatus PaymentStatus @default(pending)
+    machineId     Int
+    machine       Machine       @relation(fields: [machineId], references: [id])
+    inititateAt   DateTime      @default(now())
+}
