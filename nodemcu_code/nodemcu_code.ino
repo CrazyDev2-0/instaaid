@@ -5,8 +5,8 @@
 #include <ESP8266HTTPClient.h>
 
 
-#define SSID_NAME "Tanmoy_Home_2.4G"
-#define SSID_PASS "15072002"
+#define SSID_NAME "YOUR_WIFI_USERNAME"
+#define SSID_PASS "YOUR_WIFI_PASSWORD"
 #define MACHINE_CODE "machine_01"
 
 
